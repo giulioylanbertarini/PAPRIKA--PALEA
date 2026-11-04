@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PALEA</title>
 <style>
-  /* Stili del Player integrati */
+  /* --- STILI DEL PLAYER --- */
   .player {
     max-width: 560px;
-    margin: 4rem auto; /* Spazio per staccarlo dai titoli */
-    color: black; /* Nero per staccare sul rosso acceso */
+    margin: 4rem auto; 
+    color: black; 
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-user-select: none;
     user-select: none;
@@ -62,7 +62,6 @@
     height: 4px;
     margin: 0;
     border-radius: 2px;
-    /* Sfondo barra scuro leggermente trasparente per adattarsi al rosso */
     background: linear-gradient(to right, currentColor var(--p, 0%), rgba(0,0,0,0.35) var(--p, 0%));
     color: inherit;
     cursor: pointer;
@@ -83,30 +82,128 @@
   }
   input[type=range]::-moz-range-track { background: rgba(0,0,0,0.35); height: 4px; border-radius: 2px; }
   input[type=range]::-moz-range-progress { background: currentColor; height: 4px; border-radius: 2px; }
+  
+  /* --- STILI BOX PASSWORD --- */
+  #pwd-container {
+    display: flex;
+    gap: 10px;
+    margin-top: -80px; 
+    z-index: 1000;
+  }
+  #pwd {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 2px solid black;
+    background: transparent;
+    color: black;
+    outline: none;
+    font-family: Arial, sans-serif;
+  }
+  #pwd::placeholder {
+    color: rgba(0,0,0,0.6);
+  }
+  #pwd-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 2px solid black;
+    background: black;
+    color: rgb(221, 30, 30);
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+  }
+
+  /* --- STILI TITOLI SITO (Desktop Base) --- */
+  .titoli-sito {
+    text-align: center;
+  }
+  .titoli-sito h1 {
+    font-size: 400px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    line-height: 0.9;
+  }
+  .titoli-sito h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    letter-spacing: 439px;
+    transform: translate(213px, -30px);
+  }
+
+  /* --- MEDIA QUERY (Adattamento per Tablet e Telefoni) --- */
+  @media (max-width: 1100px) {
+    /* Rimpicciolisce i titoli in proporzione allo schermo */
+    .titoli-sito h1 {
+      font-size: 26vw; /* vw = percentuale della larghezza schermo */
+    }
+    .titoli-sito h2 {
+      font-size: 5vw;
+      letter-spacing: 22vw;
+      transform: translate(11vw, -5vw);
+    }
+    /* Impila password e bottone su schermi piccoli */
+    #pwd-container {
+      flex-direction: column;
+      width: 80%;
+      max-width: 300px;
+      margin-top: -30px;
+    }
+    #pwd, #pwd-btn {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    /* Dà margine al player laterale per non toccare i bordi del telefono */
+    .player {
+      width: 90%;
+      margin: 2rem auto;
+    }
+  }
 </style>
 </head>
 <body style="background-color:rgb(221, 30, 30); margin: 0; overflow-x: hidden;">
 
 <!-- Schermata di ingresso (Copertina) -->
-<div id="ingresso" onclick="entra()" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgb(221, 30, 30); z-index:999; display:flex; align-items:center; justify-content:center; cursor:pointer;">
-  <img src="logo_red_black.png" alt="SIGA" width="900" height="900">
+<div id="ingresso" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgb(221, 30, 30); z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+  <img src="logo_red_black.png" alt="SIGA" width="900" height="900" style="max-width: 100%; height: auto;">
+  
+  <div id="pwd-container">
+    <input type="password" id="pwd" placeholder="Inserisci password">
+    <button id="pwd-btn" onclick="controllaPassword()">ENTRA</button>
+  </div>
 </div>
 
-<!-- Contenuto principale del sito -->
-<div style="text-align: center;">
-  <h1 style="font-size:400px; font-family: Arial, Helvetica, sans-serif; margin: 0;">PAPRIKA!</h1> 
-  <h2 style="font-family: Arial, Helvetica, sans-serif; margin: 0;letter-spacing: 439px; transform: translate(213px, -80px);">PALEA</h2>
+<!-- Contenuto principale del sito (Stili spostati nel CSS) -->
+<div class="titoli-sito">
+  <h1>PAPRIKA!</h1> 
+  <h2>PALEA</h2>
 </div>
 
 <!-- Container del Player -->
 <div class="player" id="player"></div>
 
-
 <script>
-  // Logica chiusura ingresso
-  function entra() {
-    document.getElementById('ingresso').style.display = 'none';
+  // Logica della password
+  function controllaPassword() {
+    const passwordInserita = document.getElementById('pwd').value.trim().toLowerCase();
+    
+    if (passwordInserita === 'sogni') {
+      document.getElementById('ingresso').style.display = 'none';
+    } else {
+      // Fa partire l'audio di errore
+      const erroreAudio = new Audio('Password_Errata.mp3');
+      erroreAudio.play();
+      
+      // Svuota il campo testuale
+      document.getElementById('pwd').value = '';
+    }
   }
+
+  // Permette di premere "Invio"
+  document.getElementById('pwd').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      controllaPassword();
+    }
+  });
 
   // Configurazione tracce del player
   const tracks = [
@@ -192,8 +289,6 @@
     players.push({ audio });
     container.appendChild(row);
   });
-
-
 </script>
 </body>
 </html>
