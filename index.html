@@ -116,35 +116,41 @@
     font-family: Arial, sans-serif;
   }
 
-  /* --- STILI TITOLI SITO (PC / Desktop) --- */
+  /* --- STILI TITOLI SITO --- */
   .titoli-sito {
     text-align: center;
-    /* CAMBIA QUESTO VALORE PER REGOLARE LO ZOOM DEI TITOLI SU PC (1 = enorme, 0.5 = piccolo) */
-    --zoom-pc: 0.6; 
+    font-size: clamp(60px, 18vw, 280px);
+    margin-top: 5vh;
+  }
+  
+  .titoli-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center; 
   }
   
   .titoli-sito h1 {
-    font-size: calc(400px * var(--zoom-pc));
+    font-size: 1em; 
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
+    line-height: 0.8;
   }
+  
   .titoli-sito h2 {
+    display: flex;
+    justify-content: space-between; 
+    
+    /* Il punto di equilibrio per l'allineamento ottico */
+    width: 96.5%; 
+    transform: translate(-0.2%, -0.1em); 
+
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
-    letter-spacing: calc(439px * var(--zoom-pc));
-    transform: translate(calc(213px * var(--zoom-pc)), calc(-80px * var(--zoom-pc)));
+    font-size: 0.08em; 
   }
 
-  /* --- MEDIA QUERY (Adattamento automatico per Tablet e Telefoni) --- */
-  @media (max-width: 1200px) {
-    .titoli-sito h1 {
-      font-size: 26vw; 
-    }
-    .titoli-sito h2 {
-      font-size: 5vw;
-      letter-spacing: 24vw; 
-      transform: translate(12vw, -5vw); 
-    }
+  /* --- MEDIA QUERY --- */
+  @media (max-width: 768px) {
     #pwd-container {
       flex-direction: column;
     }
@@ -157,9 +163,8 @@
 </head>
 <body style="background-color:rgb(221, 30, 30); margin: 0; overflow-x: hidden;">
 
-<!-- Schermata di ingresso (Copertina) -->
+<!-- Schermata di ingresso -->
 <div id="ingresso" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgb(221, 30, 30); z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-  
   <img src="logo_red_black.png" alt="SIGA" style="max-width: 90%; max-height: 50vh; width: auto;">
   
   <div id="pwd-container">
@@ -168,10 +173,14 @@
   </div>
 </div>
 
-<!-- Contenuto principale del sito (titoli) -->
+<!-- Contenuto principale del sito -->
 <div class="titoli-sito">
-  <h1>PAPRIKA!</h1> 
-  <h2>PALEA</h2>
+  <div class="titoli-wrapper">
+    <h1>PAPRIKA!</h1> 
+    <h2>
+      <span>P</span><span>A</span><span>L</span><span>E</span><span>A</span>
+    </h2>
+  </div>
 </div>
 
 <!-- Container del Player -->
@@ -181,7 +190,6 @@
   // Logica della password
   function controllaPassword() {
     const passwordInserita = document.getElementById('pwd').value.trim().toLowerCase();
-    
     if (passwordInserita === 'sogni') {
       document.getElementById('ingresso').style.display = 'none';
     } else {
