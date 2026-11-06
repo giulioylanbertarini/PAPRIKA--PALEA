@@ -120,7 +120,7 @@
   .titoli-sito {
     text-align: center;
     font-size: clamp(60px, 18vw, 280px);
-    margin-top: 5vh;
+    margin-top: 1vh; 
   }
   
   .titoli-wrapper {
@@ -139,17 +139,16 @@
   .titoli-sito h2 {
     display: flex;
     justify-content: space-between; 
-    
-    /* Il punto di equilibrio per l'allineamento ottico */
     width: 96.5%; 
     transform: translate(-0.2%, -0.1em); 
-
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
+    
+    /* Questa è la grandezza base per PC */
     font-size: 0.08em; 
   }
 
-  /* --- MEDIA QUERY --- */
+  /* --- MEDIA QUERY (Modifiche specifiche per Smartphone e Tablet) --- */
   @media (max-width: 768px) {
     #pwd-container {
       flex-direction: column;
@@ -157,6 +156,12 @@
     .player {
       width: 90%;
       margin: 2rem auto;
+    }
+    
+    /* Aumenta lo spessore e l'altezza di PALEA solo sui telefoni */
+    .titoli-sito h2 {
+      font-size: 0.16em; /* Ingrandisce le lettere (cambia questo valore se serve) */
+      transform: translate(-0.2%, -0.05em); /* Riallineamento ottico verticale per il telefono */
     }
   }
 </style>
