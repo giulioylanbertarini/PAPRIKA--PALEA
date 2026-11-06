@@ -116,25 +116,26 @@
     font-family: Arial, sans-serif;
   }
 
-  /* --- STILI TITOLI SITO --- */
+  /* --- STILI TITOLI SITO (PC / Desktop) --- */
   .titoli-sito {
     text-align: center;
+    /* CAMBIA QUESTO VALORE PER REGOLARE LO ZOOM DEI TITOLI SU PC (1 = enorme, 0.5 = piccolo) */
+    --zoom-pc: 0.6; 
   }
   
-  /* 1. PC E MONITOR GRANDI: I tuoi valori originali esatti */
   .titoli-sito h1 {
-    font-size: 400px;
+    font-size: calc(400px * var(--zoom-pc));
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
   }
   .titoli-sito h2 {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
-    letter-spacing: 439px;
-    transform: translate(213px, -80px);
+    letter-spacing: calc(439px * var(--zoom-pc));
+    transform: translate(calc(213px * var(--zoom-pc)), calc(-80px * var(--zoom-pc)));
   }
 
-  /* 2. TABLET E TELEFONI: Si rimpiccioliscono automaticamente solo sotto i 1200px */
+  /* --- MEDIA QUERY (Adattamento automatico per Tablet e Telefoni) --- */
   @media (max-width: 1200px) {
     .titoli-sito h1 {
       font-size: 26vw; 
@@ -159,7 +160,6 @@
 <!-- Schermata di ingresso (Copertina) -->
 <div id="ingresso" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgb(221, 30, 30); z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
   
-  <!-- Max-height evita che l'immagine occupi tutto lo schermo su iPad/Laptop spingendo via la password -->
   <img src="logo_red_black.png" alt="SIGA" style="max-width: 90%; max-height: 50vh; width: auto;">
   
   <div id="pwd-container">
